@@ -5,32 +5,6 @@ import numpy as np
 from util import as_row, as_col
 
 
-class Kernel:
-    def __init__(self, kern_func, **param):
-        self.kern_func = kern_func
-        self.param = dict(param)
-
-    def eval(self, x1, x2=None):
-        if x2 is None:
-            x2 = x1
-
-        d = pairwise_differences(x1, x2):
-        return self.kern_func(d, **self.param)
-
-
-class AdditiveKernel:
-    def __init__(self, *kernels):
-        self.kernels = kernels
-
-    def eval(self, x1, x2=None):
-        if x2 is None:
-            x2 = x1
-
-        d = pairwise_differences(x1, x2):
-        matrices = [k(d) for k in self.kernels]
-        return sum(matrices)
-
-
 def noise(d, variance=1.0):
     m = np.zeros_like(d)
     m[d == 0.0] = variance
@@ -41,7 +15,7 @@ def constant(d, variance):
     return variance * np.ones_like(d)
 
 
-def constant(d, variance):
+def grad_constant(d, variance):
     return {'variance': np.ones_like(d)}
 
 
